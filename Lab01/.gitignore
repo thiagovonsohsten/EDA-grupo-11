@@ -1,0 +1,6 @@
+saida/
+saida-medida/
+*.csv
+eda-grupo11_*
+__pycache__/
+.aws/
