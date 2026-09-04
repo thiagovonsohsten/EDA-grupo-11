@@ -1,0 +1,13 @@
+# Nunca versionar credenciais nem state local
+*credentials*
+*.csv
+.env
+.aws/
+.DS_Store
+**/terraform/.terraform/
+**/terraform/*.tfstate
+**/terraform/*.tfstate.*
+
+# Pacote do professor (tem gabarito) — não entra na entrega
+aula-08-iac-do-zero/
+*.pptx
