@@ -1,0 +1,8 @@
+# Copie este arquivo para terraform.tfvars e preencha.
+#   cp terraform.tfvars.example terraform.tfvars
+
+sufixo = "SEU_LOGIN"        # so minusculas e numeros, sem hifen (Passo 1)
+
+# Teto de bytes por consulta, herdado do Exercicio 02.
+# Entre 10485760 (10 MiB) e 117455962. Nao mude entre o apply e o plan final.
+teto_bytes = 20971520

@@ -1,0 +1,18 @@
+# Terraform / estado local — Exercício 03
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Backend remoto: o backend.hcl carrega o nome do bucket da conta.
+# Versione o backend.hcl.example, nunca o backend.hcl.
+backend.hcl
