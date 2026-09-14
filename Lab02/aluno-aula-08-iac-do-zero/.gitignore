@@ -1,0 +1,7 @@
+dados/saida/
+
+# Credenciais — nunca versionar
+*.csv
+*credentials*
+.env
+.aws/

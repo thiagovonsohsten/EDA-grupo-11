@@ -1,0 +1,41 @@
+Exercicio 02 — verificacao (regiao us-east-1, hoje 2026-09-04)
+----------------------------------------------------------------
+Criterio 0 — Terraform, schema declarado, sem Crawler
+OK     [0] requisito atendido
+----------------------------------------------------------------
+Criterio 1 — outputs de contrato
+       bucket_name = eda-a08-lake-grupo11
+       database_name = eda_a08_lake_grupo11
+       table_name = corridas
+       workgroup_name = eda-a08-wg-grupo11
+       teto_bytes = 20971520
+PASSA  [1]  (10%)  os cinco outputs existem e estao preenchidos.
+----------------------------------------------------------------
+Criterio 2 — schema declarado
+       colunas declaradas: 9 · chave de particao: dt
+PASSA  [2]  (25%)  schema com 9 colunas e particao dt.
+----------------------------------------------------------------
+Criterio 3 — particoes
+       particoes registradas: 8 -> 2026-08-30 2026-08-28 2026-09-01 2026-09-04 2026-09-02 2026-08-29 2026-09-03 2026-08-31
+PASSA  [3]  (15%)  8 particoes, incluindo a de hoje (2026-09-04).
+----------------------------------------------------------------
+Criterio 4 — teto
+       teto declarado: 20971520 bytes
+       larga:    estado=CANCELLED  motivo=Bytes scanned limit was exceeded
+       estreita: estado=SUCCEEDED  bytes=3408166
+PASSA  [4]  (15%)  a larga foi barrada pelo teto e a estreita passou.
+----------------------------------------------------------------
+Criterio 6 — DECISOES.md
+       encontrei 5 decisoes em DECISOES.md — conteudo avaliado a mao (20%).
+----------------------------------------------------------------
+Resumo dos criterios automaticos: 65 / 65 pontos-percentuais
+
+Cole o bloco abaixo no seu PR:
+  bucket=eda-a08-lake-grupo11  db=eda_a08_lake_grupo11  table=corridas  wg=eda-a08-wg-grupo11  teto=20971520
+  criterios_automaticos=65/65  data=2026-09-04T18:45:52Z
+
+----------------------------------------------------------------
+Criterio 5 — destroy limpo (pos-destroy)
+PASSA  [5]  (15%)  nenhum bucket orfao.
+Criterio 5: 15/15%
+Destroy complete! Resources: 15 destroyed.
