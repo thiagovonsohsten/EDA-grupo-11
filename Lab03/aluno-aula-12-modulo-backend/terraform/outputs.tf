@@ -1,10 +1,10 @@
 # =============================================================================
-# CONTRATO — não mexa nos nomes. O verifica.sh lê exatamente estes cinco outputs.
+# CONTRATO — o verifica.sh le estes nomes. Preservados na refatoracao.
 #
-# Os nomes e os valores sao os mesmos de antes da refatoracao; so a origem
-# mudou: agora vem de module.lake.*, porque a raiz nao enxerga recurso de
-# dentro do modulo. Output nao existe no estado da AWS - trocar a origem nao
-# recria nada, e por isso o plan continua limpo.
+# Os nomes e os valores sao os mesmos de antes; so a ORIGEM mudou: agora vem de
+# module.lake.*, porque a raiz nao enxerga recurso de dentro do modulo. Output
+# nao existe no estado da AWS - trocar a origem nao recria nada, e por isso o
+# plan continua limpo.
 # =============================================================================
 
 output "bucket_name" {
@@ -32,8 +32,9 @@ output "teto_bytes" {
   value       = var.teto_bytes
 }
 
-# Conveniencia (nao entra na nota): URL do editor do Athena.
-output "console_url_athena" {
-  description = "Abrir o editor do Athena no console."
-  value       = "https://${var.regiao}.console.aws.amazon.com/athena/home?region=${var.regiao}#/query-editor"
+# Nao entra no contrato: diz de qual workspace este estado fala. Output nao
+# existe na AWS, entao nao afeta o plan.
+output "workspace" {
+  description = "Workspace cujo estado descreve esta stack."
+  value       = terraform.workspace
 }

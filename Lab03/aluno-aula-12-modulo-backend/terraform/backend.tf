@@ -5,21 +5,22 @@
 # entram aqui. Eles carregam o nome da conta e vao em backend.hcl, que NAO e
 # versionado (ver .gitignore). Modelo: backend.hcl.example.
 #
-#   cp backend.hcl.example backend.hcl        # e preencha o sufixo
+#   cp backend.hcl.example backend.hcl        # e preencha a conta
 #   terraform init -migrate-state -backend-config=backend.hcl
 #
 # O -migrate-state pergunta se copia o estado local para o S3: responda yes.
 # Migrar backend nao toca em recurso nenhum - o plan do Passo 8 continua
 # dizendo "No changes".
 #
-# workspace_key_prefix: separa o estado por workspace dentro do bucket, em
+# workspace_key_prefix separa o estado por workspace dentro do bucket, em
 # eda-a12/<workspace>/aula12/terraform.tfstate. O workspace 'default' e a
-# excecao - ele grava direto na 'key', sem prefixo. E la que a stack migrada
-# fica (DECISAO 03): renomea-la para 'dev' mudaria os nomes dos recursos e
-# recriaria tudo, que e justamente o que este exercicio proibe.
+# excecao: grava direto na 'key', sem prefixo. E la que a stack migrada fica
+# (DECISAO 03).
 #
 # A trava: o DynamoDB eda-tflock impede dois applies simultaneos no mesmo
-# estado. Era o que faltava no Exercicio 02, com estado local no laptop.
+# estado. Era o que faltava no Exercicio 02, com o tfstate no laptop.
+# O backend e o COMPARTILHADO da disciplina - nao e deste exercicio e
+# sobrevive ao destroy.
 # =============================================================================
 
 terraform {

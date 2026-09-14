@@ -1,7 +1,7 @@
 # =============================================================================
-# A interface do modulo. A raiz nao alcanca recurso de dentro do modulo: so
-# chega ao que for exportado aqui. E o que sustenta os cinco outputs de
-# contrato la fora (criterio 4).
+# A interface do modulo. A raiz NAO alcanca recurso de dentro do modulo: chega
+# so ao que for exportado aqui. E o que sustenta os cinco outputs de contrato
+# la fora (criterio 4).
 # =============================================================================
 
 output "bucket_name" {

@@ -10,5 +10,6 @@
 **/terraform/backend.hcl
 
 # Pacote do professor (tem gabarito) — não entra na entrega
-aula-12-refatorar-modulo/
+# (o pacote vem como .zip; o conteudo util foi extraido para a pasta aluno-*)
+*.zip
 *.pptx
