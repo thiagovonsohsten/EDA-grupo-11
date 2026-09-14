@@ -47,9 +47,18 @@ resource "aws_glue_catalog_table" "corridas" {
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
     ser_de_info { serialization_library = "org.openx.data.jsonserde.JsonSerDe" }
 
-    columns { name = "corrida_id" type = "string" }
-    columns { name = "bairro"     type = "string" }
-    columns { name = "valor"      type = "double" }
+    columns {
+      name = "corrida_id"
+      type = "string"
+    }
+    columns {
+      name = "bairro"
+      type = "string"
+    }
+    columns {
+      name = "valor"
+      type = "double"
+    }
   }
 }
 
