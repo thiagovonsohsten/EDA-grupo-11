@@ -1,0 +1,11 @@
+# Copie para backend.hcl e preencha (o backend.hcl NAO vai para o git).
+#   cp backend.hcl.example backend.hcl
+#
+# Usado no Passo 7:
+#   terraform init -migrate-state -backend-config=backend.hcl
+
+bucket         = "eda-tfstate-SEU_LOGIN"
+key            = "aula12/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "eda-tflock"
+encrypt        = true

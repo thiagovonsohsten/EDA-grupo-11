@@ -1,0 +1,6 @@
+# Credenciais — nunca versionar
+*.csv
+*credentials*
+.env
+.aws/
+.DS_Store
