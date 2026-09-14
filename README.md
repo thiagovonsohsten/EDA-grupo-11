@@ -10,6 +10,7 @@ Repositório do grupo 11 da disciplina **Engenharia de Dados** (CESAR School).
 - Thiago Menezes
 - Matheus Lucena
 - Lui Manso
+- Rodrigo Souza
 
 ## Laboratórios
 
