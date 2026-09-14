@@ -31,3 +31,10 @@ output "teto_bytes" {
   description = "Teto de bytes por consulta aplicado."
   value       = var.teto_bytes
 }
+
+# Nao entra no contrato: diz de qual workspace este estado fala. Output nao
+# existe na AWS, entao nao afeta o plan.
+output "workspace" {
+  description = "Workspace cujo estado descreve esta stack."
+  value       = terraform.workspace
+}

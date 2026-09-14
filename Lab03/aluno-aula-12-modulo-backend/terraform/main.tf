@@ -17,6 +17,7 @@
 module "lake" {
   source = "./modules/lake"
 
-  sufixo     = var.sufixo
+  # local.sufixo_efetivo == var.sufixo no workspace default (ver locals.tf)
+  sufixo     = local.sufixo_efetivo
   teto_bytes = var.teto_bytes
 }

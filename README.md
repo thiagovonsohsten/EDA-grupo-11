@@ -18,7 +18,7 @@ Repositório do grupo 11 da disciplina **Engenharia de Dados** (CESAR School).
 | --- | --- |
 | [`Lab01`](./Lab01) | Exercício 01 — schema declarado no Glue (sem Crawler) |
 | [`Lab02/aluno-aula-08-iac-do-zero`](./Lab02/aluno-aula-08-iac-do-zero) | Exercício 02 — Data Lake do zero em Terraform |
-| [`Lab03/aluno-aula-12-refatorar-modulo`](./Lab03/aluno-aula-12-refatorar-modulo) | Exercício 03 — refatorar em módulo, com plan limpo |
+| [`Lab03/aluno-aula-12-modulo-backend`](./Lab03/aluno-aula-12-modulo-backend) | Exercício 03 — refatorar em módulo, com plan limpo |
 
 ### Lab01 — entrega
 
@@ -39,7 +39,7 @@ Repositório do grupo 11 da disciplina **Engenharia de Dados** (CESAR School).
 Parte da stack do Exercício 02 e a refatora: **módulo + backend remoto + workspace**,
 sem recriar recurso nenhum (`terraform plan` final = `No changes`).
 
-- `Lab03/aluno-aula-12-refatorar-modulo/terraform/` — stack plana → `modules/lake/`
-- `Lab03/aluno-aula-12-refatorar-modulo/terraform/backend.hcl.example` — modelo do backend remoto
-- `Lab03/aluno-aula-12-refatorar-modulo/DECISOES.md` — justificativas 01–05 (refatoração)
-- `Lab03/aluno-aula-12-refatorar-modulo/evidencia-verifica.txt` — saída do `verifica.sh`
+- `Lab03/aluno-aula-12-modulo-backend/terraform/` — pacote canônico → `modules/lake/`
+- `Lab03/aluno-aula-12-modulo-backend/terraform/backend.tf` — backend S3 + `workspace_key_prefix`
+- `Lab03/aluno-aula-12-modulo-backend/DECISOES.md` — justificativas 01–05 (refatoração)
+- `Lab03/aluno-aula-12-modulo-backend/evidencia-verifica.txt` — saída do `verifica.sh`
