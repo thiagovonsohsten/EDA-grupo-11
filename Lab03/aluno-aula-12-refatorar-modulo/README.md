@@ -7,28 +7,51 @@ a regra dura de que o `terraform plan` final diga **`No changes`**.
 > **Zero recurso recriado.** Se o plan quer mudar qualquer coisa, a refatoração
 > não é refatoração — e o critério 1 (30%) cai junto.
 
-## Estado desta pasta
+## O histórico do git É o exercício
 
-Esta é a **stack plana do ponto de partida**: os sete recursos vivem na raiz de
-`terraform/`, o estado é local e não existe módulo nenhum. É cópia fiel da stack
-entregue no Exercício 02, com o que era exclusivo daquele exercício removido
-(gerador de dados, partições do Glue, evidência e `verifica.sh` da Aula 08).
+Os três commits desta branch são os três estados do enunciado. Cada um roda:
 
-| Arquivo | Situação |
-| --- | --- |
-| `terraform/main.tf` | 7 `resource` na raiz — é o que vai virar `modules/lake/` |
-| `terraform/variables.tf` | `regiao`, `turma`, `sufixo`, `teto_bytes` |
-| `terraform/outputs.tf` | **contrato** — os cinco nomes que o `verifica.sh` lê |
-| `terraform/terraform.tfvars` | `sufixo` e `teto_bytes` herdados do Ex. 02 |
-| `terraform/backend.hcl.example` | modelo do Passo 7 (o `backend.hcl` é ignorado) |
-| `verificacao/` | vazia — o `verifica.sh` da Aula 12 vem no pacote do professor |
-| `DECISOES.md` | esqueleto das cinco decisões, a preencher |
+| Commit | Estado do código | Onde entra no enunciado |
+| --- | --- | --- |
+| `Lab03: ponto de partida` | 7 `resource` na raiz, estado local, sem módulo | **Passo 2** — `apply` daqui |
+| `Lab03: extrai modules/lake` | raiz é só `module "lake"`, estado ainda local | **Passos 3–6** — `plan`, `state mv`, `plan` limpo |
+| `Lab03: backend remoto + workspace` | `backend.tf` com S3 + trava DynamoDB | **Passos 7–9** — `init -migrate-state` |
 
-## Os sete `state mv` (Passo 5)
+O estado da AWS **não** volta junto com o `git checkout` — é esse descompasso
+que o exercício ensina a consertar com `terraform state mv`.
 
-⚠️ O enunciado lista **seis**, porque o pacote canônico do professor não traz o
-`public_access_block` do bucket de resultados. Esta stack traz — então são
-**sete**. Esquecer um deixa recurso órfão no plan e derruba o critério 1.
+## Como executar
+
+```bash
+export AWS_REGION=us-east-1
+export SUFIXO=grupo11
+cd terraform
+cp terraform.tfvars.example terraform.tfvars    # já vem preenchido nesta entrega
+cp backend.hcl.example backend.hcl              # e troque SEU_LOGIN pelo sufixo
+```
+
+**Passo 2 — suba a stack plana.** Volte ao primeiro commit, onde o código ainda
+é plano, e aplique:
+
+```bash
+git checkout <sha-do-ponto-de-partida> -- .
+terraform init && terraform apply -var="sufixo=$SUFIXO"     # 7 added
+```
+
+**Passos 3–4 — traga o código refatorado e veja o problema:**
+
+```bash
+git checkout Lab03 -- .
+terraform plan -var="sufixo=$SUFIXO"      # Plan: 7 to add, 0 to change, 7 to destroy
+```
+
+⚠️ **Não aplique.** O código fala de `module.lake.aws_s3_bucket.lake`, o estado
+ainda guarda `aws_s3_bucket.lake` — para o Terraform um sumiu e outro nasceu.
+
+**Passo 5 — mova o estado.** São **sete**, não seis: o enunciado lista 6 porque
+o pacote canônico do professor não traz o `public_access_block` do bucket de
+resultados. Esta stack traz. Esquecer um deixa órfão no plan e derruba o
+critério 1.
 
 ```bash
 terraform state mv aws_s3_bucket.lake                        module.lake.aws_s3_bucket.lake
@@ -40,33 +63,46 @@ terraform state mv aws_glue_catalog_table.corridas           module.lake.aws_glu
 terraform state mv aws_athena_workgroup.wg                   module.lake.aws_athena_workgroup.wg
 ```
 
-O `apply` do Passo 2 vai dizer `7 added`, não `6 added`, e o plan do Passo 4 vai
-dizer `7 to add, 0 to change, 7 to destroy`. É esperado.
+**Passo 6 — prove:** `terraform plan -var="sufixo=$SUFIXO"` → `No changes.`
 
-> Se o pacote canônico do professor chegar, **use ele** como ponto de partida no
-> lugar desta pasta, e aí a lista de seis do enunciado vale como está.
+**Passos 7–8 — backend remoto:**
+
+```bash
+terraform init -migrate-state -backend-config=backend.hcl    # responda yes
+terraform plan -var="sufixo=$SUFIXO"                         # No changes. de novo
+```
+
+**Passo 9 — workspace:**
+
+```bash
+terraform workspace new dev
+terraform workspace select default
+```
+
+**Passos 10–12:** `verifica.sh`, preencher o `DECISOES.md`, `terraform destroy`,
+`verifica.sh --pos-destroy`, colar as saídas em `evidencia-verifica.txt`.
 
 ## Não renomeie nada
 
 Os nomes continuam `eda-a08-*` (`eda-a08-lake-grupo11`, `eda-a08-results-grupo11`,
 `eda-a08-wg-grupo11`, `eda_a08_lake_grupo11`). Trocar o `a08` por `a12` muda o
-argumento `bucket`, que é *ForceNew*: o Terraform destrói e recria, e o plan
-nunca fica limpo. O prefixo fica com o número da aula "errado" de propósito — o
-exercício é código novo sobre a **mesma** infraestrutura.
+argumento `bucket`, que é *ForceNew*: destrói e recria, e o plan nunca fica
+limpo. O prefixo fica com o número da aula "errado" de propósito — o exercício é
+código novo sobre a **mesma** infraestrutura.
 
-## Ordem dos passos (a ordem é a lição)
+## A pasta
 
-1. `terraform init && terraform apply -var="sufixo=$SUFIXO"` → `7 added`, estado local
-2. Extrair `modules/lake/` — mover os blocos **sem renomear**
-3. `terraform plan` → vê os `7 to destroy`. **Não aplique.**
-4. Os sete `terraform state mv`
-5. `terraform plan` → `No changes.` ← metade do exercício, feita
-6. `backend.hcl` + bloco `backend "s3"` + `terraform init -migrate-state -backend-config=backend.hcl`
-7. `terraform plan` → `No changes.` de novo, agora com estado no S3
-8. `terraform workspace new dev && terraform workspace select default`
-9. `verifica.sh`, `DECISOES.md`, `terraform destroy`, `verifica.sh --pos-destroy`, PR
+| Arquivo | Papel |
+| --- | --- |
+| `terraform/main.tf` | raiz — só o bloco `module "lake"` |
+| `terraform/modules/lake/` | os 7 recursos, movidos sem renomear |
+| `terraform/backend.tf` | backend S3 parcial + `workspace_key_prefix` |
+| `terraform/backend.hcl.example` | modelo do `-backend-config` (o `.hcl` é ignorado) |
+| `terraform/outputs.tf` | **contrato** — os cinco nomes que o `verifica.sh` lê |
+| `verificacao/` | vazia — o `verifica.sh` da Aula 12 vem no pacote do professor |
+| `DECISOES.md` | as cinco decisões da refatoração |
 
 ## Nunca comitar
 
 `terraform.tfstate`, `.terraform/`, `backend.hcl` (tem o nome da conta).
-Todos já estão nos `.gitignore` desta pasta.
+Todos já estão nos `.gitignore`.
