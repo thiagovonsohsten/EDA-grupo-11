@@ -16,9 +16,23 @@ Repositório do grupo 11 da disciplina **Engenharia de Dados** (CESAR School).
 
 | Pasta | Descrição |
 | --- | --- |
+| [`parte-1`](./parte-1) | Projeto · Parte 1 (AV1) — Data Lake em Terraform |
 | [`Lab01`](./Lab01) | Exercício 01 — schema declarado no Glue (sem Crawler) |
 | [`Lab02/aluno-aula-08-iac-do-zero`](./Lab02/aluno-aula-08-iac-do-zero) | Exercício 02 — Data Lake do zero em Terraform |
 | [`Lab03/aluno-aula-12-modulo-backend`](./Lab03/aluno-aula-12-modulo-backend) | Exercício 03 — refatorar em módulo, com plan limpo |
+
+### Parte 1 — AV1
+
+Entrega oficial da primeira unidade, baseada no cenário de corridas urbanas.
+
+- `parte-1/terraform/` — Terraform modular, backend remoto S3 e workspace `av1`
+- `parte-1/dados/gerar-corridas.py` — gerador dos eventos JSON Lines
+- `parte-1/consultas/pergunta-negocio.sql` — consulta Athena da pergunta de negócio
+- `DECISOES.md` — decisões de engenharia da AV1
+- `verificacao/verifica.sh` — aceite automático da AV1
+- `apresentacao-parte-1-g11.md` e `apresentacao-parte-1-g11.pdf` — apresentação da AV1
+
+Região obrigatória: `us-east-1` (N. Virginia).
 
 ### Lab01 — entrega
 
